@@ -5,8 +5,9 @@ router.get("/categories", (req,res) => {
     res.send("teste")
 })
 
+// Form para criar categories
 router.get("/admin/categories/new", (req,res) => {
-    res.send("")
+    res.render("admin/categories/new.ejs")
 })
 
 module.exports = router
