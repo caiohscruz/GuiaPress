@@ -13,16 +13,20 @@ const connection = require("./database/database")
 const CategoriesController = require("./categories/CategoriesController")
 const ArticlesController = require("./articles/ArticlesController")
 
+// Importando os models
+const Category = require("./categories/Category")
+const Article = require("./articles/Article")
+
 // Dizendo para o express que o EJS deve ser usado como View Engine
 app.set('view engine', 'ejs')
+
 // Para que o express reconheça imagens e CSS - public é o nome do diretorio
 app.use(express.static('public'))
 
 app.set('views', path.join(__dirname, 'views'))
 
-//
+// Para trabalhar com formulários
 app.use(bodyParser.json())
-
 app.use(bodyParser.urlencoded({
     extended: false
 }))
@@ -37,7 +41,7 @@ connection
     console.log(msgErro)
 })
 
-
+// Rota index
 app.get("/", (req,res) =>{
     res.send("Bem vindo ao meu site")
 })

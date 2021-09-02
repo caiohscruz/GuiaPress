@@ -13,4 +13,7 @@ const Category = connection.define("categories",{
     }
 })
 
+// inicializa tabelas caso não existam
+Category.sync({force: false})
+
 module.exports = Category
