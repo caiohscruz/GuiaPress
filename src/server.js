@@ -9,6 +9,10 @@ const bodyParser = require("body-parser")
 // Setando conexão com o banco de dados
 const connection = require("./database/database")
 
+// Importando os controllers
+const CategoriesController = require("./categories/CategoriesController")
+const ArticlesController = require("./articles/ArticlesController")
+
 // Dizendo para o express que o EJS deve ser usado como View Engine
 app.set('view engine', 'ejs')
 // Para que o express reconheça imagens e CSS - public é o nome do diretorio
@@ -37,6 +41,11 @@ connection
 app.get("/", (req,res) =>{
     res.send("Bem vindo ao meu site")
 })
+
+// Integrando os controlers
+app.use("/", CategoriesController)
+app.use("/", ArticlesController)
+
 
 app.listen(process.env.PORT||8081, ()=> {
     console.log("Rodando")
