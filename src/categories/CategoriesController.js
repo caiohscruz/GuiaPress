@@ -28,6 +28,25 @@ router.post("/categories/save", (req, res) => {
         res.redirect("admin/categories/newCategory.ejs")
     }
 })
+// Deletar categoria
+router.post("/categories/delete", (req, res) => {
+    var id = req.body.id
+    if (id != undefined) {
+        if (!isNaN(id)) {
+            Category.destroy({
+                where: {
+                    id: id
+                }
+            }).then(() => {
+                res.redirect("/admin/categories")
+            })
+        } else {
+            res.redirect("/admin/categories")
+        }
+    } else {
+        res.redirect("/admin/categories")
+    }
+})
 
 // Form para listar categories
 router.get("/admin/categories/", async (req, res) => {
