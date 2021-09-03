@@ -1,14 +1,27 @@
 const express = require("express")
 const router = express.Router()
 
-const Category = require("../categories/Category.js")
-const Artivle = require("./Article")
-const slugify = require("slugify")
+const Category = require("../categories/Category")
 const Article = require("./Article")
+const slugify = require("slugify")
 
-router.get("/admin/articles", (req, res) => {
-    res.send("ROTA PARA ARTIGOS")
+// Route to list articles - begin
+router.get("/admin/articles", async (req, res) => {
+    await Article.findAll({
+        include: [{
+            model: Category
+            
+        }],
+        order: [
+            ['title', 'ASC']
+        ]
+    }).then(articles => {
+        res.render("admin/articles/index.ejs", {
+            articles: articles
+        })
+    })
 })
+// Route to list articles - end
 
 // Route to new article - begin
 router.get("/admin/articles/new", (req, res) => {
@@ -23,8 +36,8 @@ router.get("/admin/articles/new", (req, res) => {
 // Route to save a article - begin
 router.post("/articles/save", (req, res) => {
     var title = req.body.title
-    var body =req.body.body
-    var category =req.body.category
+    var body = req.body.body
+    var category = req.body.category
 
     if (title != undefined) {
         Article.create({
