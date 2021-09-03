@@ -43,7 +43,12 @@ connection
 
 // Rota index
 app.get("/", (req,res) =>{
-    res.send("Bem vindo ao meu site")
+    Article.findAll().then(articles =>{
+        res.render("index.ejs", {
+            articles: articles
+        })
+    })
+    
 })
 
 // Integrando os controlers
