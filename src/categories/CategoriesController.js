@@ -51,26 +51,11 @@ router.post("/categories/delete", (req, res) => {
 })
 // Route to delete a category - end
 
-// Route to edit button - begin
-router.post("/categories/edit", (req, res) => {
-    var id = req.body.id
-    if (id != undefined) {
-        if (!isNaN(id)) {
-            res.redirect(`/admin/categories/edit/${id}`)
-        } else {
-            res.redirect("/admin/categories")
-        }
-    } else {
-        res.redirect("/admin/categories")
-    }
-})
-// Route to edit button - end
-
 // Route to edit category page - begin
 router.get("/admin/categories/edit/:id", async (req, res) => {
     var id = req.params.id
 
-    if(!isNaN(id)){
+    if (!isNaN(id)) {
         await Category.findByPk(id).then(category => {
             if (category != undefined) {
                 res.render("admin/categories/edit.ejs", {
@@ -82,11 +67,29 @@ router.get("/admin/categories/edit/:id", async (req, res) => {
         }).catch(erro => {
             res.redirect("/admin/categories")
         })
-    }else{
-        res.redirect("/admin/categories")        
+    } else {
+        res.redirect("/admin/categories")
     }
 })
 // Route to edit category page - end
+
+// Route to update a category - begin
+router.post("/categories/update", (req, res) => {
+    var id = req.body.id
+    var title = req.body.title
+
+    Category.update({
+        title: title,
+        slug: slugify(title)
+    }, {
+        where: {
+            id: id
+        }
+    }).then(() => {
+        res.redirect("/admin/categories/")
+    })
+})
+// Route to update a category - end
 
 // Route to categories page - begin
 router.get("/admin/categories/", async (req, res) => {

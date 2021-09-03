@@ -15,13 +15,14 @@
 
             <div class="card-body">
 
-                <form method="POST" action="/categories/save">
+                <form method="POST" action="/categories/update">
                     <label for="old">Título antigo</label>
                     <input type='text' class="form-control" id="old" value="<%= category.title %>" disabled>
                     <br>
                     <label for="title">Título novo</label>
                     <input type='text' class="form-control" id="title" name="title"
                         placeholder="Defina o título da categoria">
+                    <input type="hidden" name="id" value="<%= category.id %>">
                     <br>
                     <button type="submit" class="btn btn-success">Atualizar</button>
 

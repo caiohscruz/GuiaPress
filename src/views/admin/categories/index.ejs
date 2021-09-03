@@ -29,12 +29,11 @@
                     <th class="align-middle"><%= category.title %></th>
                     <th class="align-middle"><%= category.slug %></th>
                     <th class="align-middle" style="vertical-align: middle;">
-                        <form method="POST" action="/categories/edit" style="display: inline;">
-                            <input type="hidden" name="id" value="<%= category.id %>">
-                            <button class="btn btn-warning">Editar</button>
-                        </form>
 
-                        <form method="POST" action="/categories/delete" style="display: inline;" onsubmit="confirmDeletion(event, this)">
+                        <a href="/admin/categories/edit/<%= category.id %>" class="btn btn-warning">Editar</a>
+
+                        <form method="POST" action="/categories/delete" style="display: inline;"
+                            onsubmit="confirmDeletion(event, this)">
                             <input type="hidden" name="id" value="<%= category.id %>">
                             <button class="btn btn-danger">Deletar</button>
                         </form>
@@ -53,12 +52,11 @@
 <!-- Inclui head -->
 <%- include("../../partials/footer.ejs") %>
 <script>
-function confirmDeletion(event, form){
-    event.preventDefault()
-    var decision = confirm("Você quer realmente deletar essa categoria?")
-    if (decision){
-        form.submit()
+    function confirmDeletion(event, form) {
+        event.preventDefault()
+        var decision = confirm("Você quer realmente deletar essa categoria?")
+        if (decision) {
+            form.submit()
+        }
     }
-}
-
 </script>
