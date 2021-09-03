@@ -25,10 +25,10 @@
                 <% categories.forEach(category => { %>
 
                 <tr>
-                    <th class="align-middle"><%= category.id %></th>
-                    <th class="align-middle"><%= category.title %></th>
-                    <th class="align-middle"><%= category.slug %></th>
-                    <th class="align-middle" style="vertical-align: middle;">
+                    <td class="align-middle"><%= category.id %></td>
+                    <td class="align-middle"><%= category.title %></td>
+                    <td class="align-middle"><%= category.slug %></td>
+                    <td class="align-middle" style="vertical-align: middle;">
 
                         <a href="/admin/categories/edit/<%= category.id %>" class="btn btn-warning">Editar</a>
 
@@ -37,7 +37,7 @@
                             <input type="hidden" name="id" value="<%= category.id %>">
                             <button class="btn btn-danger">Deletar</button>
                         </form>
-                    </th>
+                    </td>
                 </tr>
 
                 <% }) %>
