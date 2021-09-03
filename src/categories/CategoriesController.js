@@ -96,7 +96,7 @@ router.get("/admin/categories/", async (req, res) => {
     await Category.findAll({
         raw: true,
         order: [
-            ['id', 'ASC']
+            ['title', 'ASC']
         ]
     }).then(categories => {
         res.render("admin/categories/index.ejs", {
