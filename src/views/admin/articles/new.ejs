@@ -24,6 +24,13 @@
                     <textarea class="form-control" placeholder="Escreva aqui seu artigo" name="body"
                         id="body"></textarea>
                     <br>
+                    <label for="category"> Categoria </label>
+                    <select id="category" name="category" class="form-control">
+                        <% categories.forEach(category => { %>
+                        <option value="<%= category.id %>"><%= category.title %></option>
+                        <% }) %>
+                    </select>
+                    <br>
                     <button type="submit" class="btn btn-success">Cadastrar</button>
 
                 </form>
