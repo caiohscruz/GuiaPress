@@ -1,20 +1,20 @@
+// import and instance express
 const express = require("express")
 const router = express.Router()
 
+// import Category model
 const Category = require("./Category")
 
+// slugify transform a string replacing spaces and special characters
 const slugify = require("slugify")
 
-router.get("/categories", (req, res) => {
-    res.send("teste")
-})
-
-// Form para criar categories
+// Route to new category page - begin
 router.get("/admin/categories/new", (req, res) => {
     res.render("admin/categories/new.ejs")
 })
+// Route to new category page - end
 
-// Salvar categories
+// Route to save a category - begin
 router.post("/categories/save", (req, res) => {
     var title = req.body.title
     if (title != undefined) {
@@ -28,7 +28,9 @@ router.post("/categories/save", (req, res) => {
         res.redirect("admin/categories/new")
     }
 })
-// Deletar categoria
+// Route to save a category - end
+
+// Route to delete a category - begin
 router.post("/categories/delete", (req, res) => {
     var id = req.body.id
     if (id != undefined) {
@@ -47,7 +49,9 @@ router.post("/categories/delete", (req, res) => {
         res.redirect("/admin/categories")
     }
 })
-// Botão Editar categoria
+// Route to delete a category - end
+
+// Route to edit button - begin
 router.post("/categories/edit", (req, res) => {
     var id = req.body.id
     if (id != undefined) {
@@ -60,7 +64,9 @@ router.post("/categories/edit", (req, res) => {
         res.redirect("/admin/categories")
     }
 })
-// Tela de Editar categories
+// Route to edit button - end
+
+// Route to edit category page - begin
 router.get("/admin/categories/edit/:id", async (req, res) => {
     var id = req.params.id
 
@@ -80,7 +86,9 @@ router.get("/admin/categories/edit/:id", async (req, res) => {
         res.redirect("/admin/categories")        
     }
 })
-// Tela listagem de categorias
+// Route to edit category page - end
+
+// Route to categories page - begin
 router.get("/admin/categories/", async (req, res) => {
     await Category.findAll({
         raw: true,
@@ -93,5 +101,7 @@ router.get("/admin/categories/", async (req, res) => {
         })
     })
 })
+// Route to categories page - end
 
+// exports router
 module.exports = router
