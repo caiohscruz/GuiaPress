@@ -2,13 +2,13 @@
 <%- include("../../partials/header.ejs") %>
 
 <body>
-    
+
     <%- include("../../partials/navbar.ejs") %>
-    
+
     <div class="container">
-        
+
         <div class="card">
-            
+
             <div class="card-header">
                 <h2>Cadastro de categorias</h2>
             </div>
@@ -16,18 +16,20 @@
             <div class="card-body">
 
                 <form method="POST" action="/categories/save">
-                    
-                    <input type='text' class="form-control" name="title" placeholder="Defina o título da categoria">
+                    <label for="title">Título</label>
+                    <input type='text' class="form-control" id="title" name="title"
+                        placeholder="Defina o título da categoria">
+                    <br>
                     <button type="submit" class="btn btn-success">Cadastrar</button>
-                    
+
                 </form>
 
             </div>
-           
+
         </div>
-        
+
     </div>
-    
+
 </body>
 
 <!-- Inclui head -->
