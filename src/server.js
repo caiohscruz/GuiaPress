@@ -83,6 +83,33 @@ app.get("/:slug", (req, res) => {
 })
 // Route to an article- begin
 
+// Route to an category page - begin
+app.get("/category/:slug", (req, res) => {
+    var slug = req.params.slug
+    Category.findOne({
+        where: {
+            slug: slug
+        },
+        include: [{
+            model: Article
+        }]
+    }).then(category => {
+        if (category != undefined) {
+            Category.findAll().then(categories => {
+                res.render("index.ejs", {
+                    articles: category.articles,
+                    categories: categories
+                })
+            })
+        } else {
+            res.redirect("/")
+        }
+    }).catch(erro => {
+        res.redirect("/")
+    })
+})
+// Route to an category page - begin
+
 // Import controllers routes - begin
 app.use("/", CategoriesController)
 app.use("/", ArticlesController)
