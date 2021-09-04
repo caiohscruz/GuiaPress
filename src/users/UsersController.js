@@ -9,13 +9,22 @@ const User = require("./User")
 const bcrypt = require("bcryptjs")
 
 // Route to users adm page - begin
-router.get("/admin/users", (req, res) => {
-    res.send("usuários")
+router.get("/admin/users/", async (req, res) => {
+    await User.findAll({
+        raw: true,
+        order: [
+            ['id', 'DESC']
+        ]
+    }).then(users => {
+        res.render("admin/users/index.ejs", {
+            users: users
+        })
+    })
 })
-// Route to users adm page - begin
+// Route to users adm page - end
 
 // Route to sign up page - begin
-router.get("/admin/users/create", (req, res) => {
+router.get("/admin/users/new", (req, res) => {
     res.render("admin/users/new.ejs")
 })
 // Route to sign up page - end
@@ -33,7 +42,7 @@ router.post("/users/save", (req, res) => {
         }
     }).then(user => {
         if (user != undefined) {
-            res.redirect("/admin/users/create")
+            res.redirect("/admin/users/new")
         } else {
             // protecting the password
             var salt = bcrypt.genSaltSync(10)
@@ -56,5 +65,6 @@ router.post("/users/save", (req, res) => {
     })
 })
 // Route to save a user - end
+
 
 module.exports = router
