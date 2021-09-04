@@ -46,9 +46,9 @@ connection
 // Conecction test - end
 
 // Route to index - begin
-app.get("/", (req, res) => {
-    Article.findAll().then(articles => {
-        Category.findAll().then(categories => {
+app.get("/", async (req, res) => {
+    await Article.findAll().then(async articles => {
+        await Category.findAll().then(categories => {
             res.render("index.ejs", {
                 articles: articles,
                 categories: categories
@@ -59,15 +59,15 @@ app.get("/", (req, res) => {
 // Route to index - end
 
 // Route to an article- begin
-app.get("/:slug", (req, res) => {
+app.get("/:slug", async (req, res) => {
     var slug = req.params.slug
-    Article.findOne({
+    await Article.findOne({
         where: {
             slug: slug
         }
-    }).then(article => {
+    }).then(async article => {
         if (article != undefined) {
-            Category.findAll().then(categories => {
+            await Category.findAll().then(categories => {
                 res.render("article.ejs", {
                     article: article,
                     categories: categories
@@ -84,18 +84,18 @@ app.get("/:slug", (req, res) => {
 // Route to an article- begin
 
 // Route to an category page - begin
-app.get("/category/:slug", (req, res) => {
+app.get("/category/:slug", async (req, res) => {
     var slug = req.params.slug
-    Category.findOne({
+    await Category.findOne({
         where: {
             slug: slug
         },
         include: [{
             model: Article
         }]
-    }).then(category => {
+    }).then(async category => {
         if (category != undefined) {
-            Category.findAll().then(categories => {
+            await Category.findAll().then(categories => {
                 res.render("index.ejs", {
                     articles: category.articles,
                     categories: categories
