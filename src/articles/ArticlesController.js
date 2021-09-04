@@ -125,43 +125,72 @@ router.post("/articles/update", async (req, res) => {
 })
 // Route to update a article - end
 
-// Route to article pagination - begin
-router.get("/articles/page/:page", async (req, res) => {
+// Route to article pagination filtered or not by category- begin
+router.get("/:slug?/articles/page/:page", async (req, res) => {
     var page = req.params.page
     var offset = 0
     var quant = 4
+    var slug = req.params.slug
+    var categoryId
+    var articles
 
     if (!isNaN(page) && (parseInt(page) > 1)) {
         offset = (parseInt(page) - 1) * quant
     }
-    // findAndCountAll return all and the number of results
-    await Article.findAndCountAll({
-        // articles per page
-        limit: quant,
-        // first article of page
-        offset: offset,
-        order: [
-            ['id', 'DESC']
-        ]
-    }).then(articles => {
-        // check if exists next page, disable button if dont
-        var next = (offset + quant < articles.count) ? "" : "disabled"
-        // check if exists previous page, disable button if dont
-        var previous = (page > 1) ? "" : "disabled"
-        // num of pages 
-        var total = (articles.count % quant == 0) ? (articles.count/quant) : (parseInt(articles.count/quant)+1)
-        // page cant be bigger than total
-        if(page>total){
-            res.redirect("/articles/page/"+total)
-        }
+    if (slug != undefined) {
+        await Category.findOne({
+            where: {
+                slug: slug
+            }
+        }).then(async category => {
+            categoryId = category.id
+        })
+        // findAndCountAll return all and the number of results
+        articles = await Article.findAndCountAll({
+            where: {
+                categoryId: categoryId
+            },
+            // articles per page
+            limit: quant,
+            // first article of page
+            offset: offset,
+            order: [
+                ['id', 'DESC']
+            ]
+        })
+    } else {
+        // findAndCountAll return all and the number of results
+        articles = await Article.findAndCountAll({
+            // articles per page
+            limit: quant,
+            // first article of page
+            offset: offset,
+            order: [
+                ['id', 'DESC']
+            ]
+        })
+    }
 
-        var result = {
-            next: next,
-            previous: previous,
-            page: parseInt(page),
-            total: total,
-            articles: articles
-        }
+    // check if exists next page, disable button if dont
+    var next = (offset + quant < articles.count) ? "" : "disabled"
+    // check if exists previous page, disable button if dont
+    var previous = (page > 1) ? "" : "disabled"
+    // num of pages 
+    var total = (articles.count % quant == 0) ? (articles.count / quant) : (parseInt(articles.count / quant) + 1)
+    // page cant be bigger than total
+    if (page > total) {
+        res.redirect("/articles/page/" + total)
+    }
+
+    var result = {
+        next: next,
+        previous: previous,
+        page: parseInt(page),
+        total: total,
+        slug: slug,
+        articles: articles
+    }
+    if (slug == undefined) {
         Category.findAll().then(categories => {
             if (offset == 0) {
                 res.render("index.ejs", {
@@ -175,8 +204,42 @@ router.get("/articles/page/:page", async (req, res) => {
                 })
             }
         })
-    })
+    } else {
+        Category.findAll().then(categories => {
+            res.render("admin/categories/page.ejs", {
+                result: result,
+                categories: categories
+            })
+        })
+    }
 })
 
-// Route to article pagination - end
+// Route to article pagination filtered by category - end
+
+
+// Route to an article- begin
+router.get("/:slug", async (req, res) => {
+    var slug = req.params.slug
+    await Article.findOne({
+        where: {
+            slug: slug
+        }
+    }).then(async article => {
+        if (article != undefined) {
+            await Category.findAll().then(categories => {
+                res.render("article.ejs", {
+                    article: article,
+                    categories: categories
+                })
+            })
+
+        } else {
+            res.redirect("/")
+        }
+    }).catch(erro => {
+        res.redirect("/")
+    })
+})
+// Route to an article- end
+
 module.exports = router
