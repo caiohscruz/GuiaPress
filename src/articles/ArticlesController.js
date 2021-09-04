@@ -119,9 +119,44 @@ router.post("/articles/update", async (req, res) => {
         }
     }).then(() => {
         res.redirect("/admin/articles/")
+    }).catch(erro => {
+        res.redirect("/admin/articles/")
     })
 })
 // Route to update a article - end
 
+// Route to article pagination - begin
+router.get("/articles/page/:page", async (req, res) => {
+    var page = req.params.page
+    var offset = 0
+    var quant = 4
 
+    if (!isNaN(page) && (parseInt(page) > 1)) {
+        offset = (parseInt(page) - 1) * quant
+    }
+    // findAndCountAll return all and the number of results
+    await Article.findAndCountAll({
+        // articles per page
+        limit: quant,
+        // first article of page
+        offset: offset
+    }).then(articles => {
+        // check if exists next page
+        var next = (offset + quant < articles.count) ? true : false
+
+        var result = {
+            next: next,
+            articles: articles
+        }
+
+        Category.findAll().then(categories => {
+            res.render("admin/articles/page.ejs", {
+                result: result,
+                categories: categories
+            })
+        })
+    })
+})
+
+// Route to article pagination - end
 module.exports = router
