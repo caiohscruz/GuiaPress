@@ -10,7 +10,7 @@
         <div class="card">
 
             <div class="card-header">
-                <h2>Novo artigo</h2>
+                <h2>Editar artigo</h2>
             </div>
 
             <div class="card-body">
@@ -27,13 +27,16 @@
                     <label for="category"> Categoria </label>
                     <select id="category" name="category" class="form-control">
                         <% categories.forEach(category => { %>
-                        <option id="<%= category.id %>" value="<%= category.id %>"><%= category.title %></option>
+
+                        <option id="<%= category.id %>" value="<%= category.id %>"
+                            <%= (category.id === article.categoryId) ? "selected" : '' %>>
+                            <%= category.title %></option>
+
                         <% }) %>
                     </select>
                     <br>
                     <input type="hidden" name="id" value="<%= article.id %>">
-                    <input type="hidden" id="selected-category" value="<%= article.categoryId %>">
-                    <button type="submit" class="btn btn-success">Cadastrar</button>
+                    <button type="submit" class="btn btn-success">Atualizar</button>
 
                 </form>
 
@@ -96,14 +99,4 @@
             "wordcount" // adds counting of words on the right edge of the status bar
         ],
     })
-</script>
-<script>
-    var select = document.querySelector('#category');
-    var option = document.querySelector('#selected-category')
-    for (var i = 0; i < select.options.length; i++) {
-        if (select.options[i].id == option.value) {
-            select.selectedIndex = i;
-            break;
-        }
-    }
 </script>
