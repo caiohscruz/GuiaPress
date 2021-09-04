@@ -53,58 +53,6 @@ app.get("/", async (req, res) => {
 })
 // Route to index - end
 
-// Route to an article- begin
-app.get("/:slug", async (req, res) => {
-    var slug = req.params.slug
-    await Article.findOne({
-        where: {
-            slug: slug
-        }
-    }).then(async article => {
-        if (article != undefined) {
-            await Category.findAll().then(categories => {
-                res.render("article.ejs", {
-                    article: article,
-                    categories: categories
-                })
-            })
-
-        } else {
-            res.redirect("/")
-        }
-    }).catch(erro => {
-        res.redirect("/")
-    })
-})
-// Route to an article- begin
-
-// Route to an category page - begin
-app.get("/category/:slug", async (req, res) => {
-    var slug = req.params.slug
-    await Category.findOne({
-        where: {
-            slug: slug
-        },
-        include: [{
-            model: Article
-        }]
-    }).then(async category => {
-        if (category != undefined) {
-            await Category.findAll().then(categories => {
-                res.render("index.ejs", {
-                    articles: category.articles,
-                    categories: categories
-                })
-            })
-        } else {
-            res.redirect("/")
-        }
-    }).catch(erro => {
-        res.redirect("/")
-    })
-})
-// Route to an category page - begin
-
 // Import controllers routes - begin
 app.use("/", CategoriesController)
 app.use("/", ArticlesController)
