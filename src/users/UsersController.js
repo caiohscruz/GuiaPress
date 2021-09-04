@@ -18,7 +18,7 @@ router.get("/admin/users/create", (req, res) =>{
 // Route to sign up page - end
 
 // Route to save a user - begin
-router.post("/categories/save", (req, res) => {
+router.post("/users/save", (req, res) => {
     var username = req.body.username
     var password = req.body.password
     var email = req.body.email
@@ -28,10 +28,10 @@ router.post("/categories/save", (req, res) => {
             password: password,
             email: email
         }).then(() => {
-            res.redirect("/admin/categories")
+            res.redirect("/")
         })
     } else {
-        res.redirect("admin/categories/new")
+        res.redirect("admin/users/new")
     }
 })
 // Route to save a user - end
