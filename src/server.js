@@ -11,11 +11,13 @@ const connection = require("./database/database")
 // Import controllers - begin
 const CategoriesController = require("./categories/CategoriesController")
 const ArticlesController = require("./articles/ArticlesController")
+const UsersController = require("./users/UsersController")
 // Import controllers - end
 
 // Import models - begin
 const Category = require("./categories/Category")
 const Article = require("./articles/Article")
+const User = require("./users/User")
 // Import models - end
 
 // Setting View Engine - begin
@@ -106,6 +108,7 @@ app.get("/category/:slug", async (req, res) => {
 // Import controllers routes - begin
 app.use("/", CategoriesController)
 app.use("/", ArticlesController)
+app.use("/", UsersController)
 // Import controllers routes - end
 
 app.listen(process.env.PORT || 8081, () => {
