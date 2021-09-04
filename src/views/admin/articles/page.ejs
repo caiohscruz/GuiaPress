@@ -2,12 +2,12 @@
 <%- include("../../partials/header.ejs") %>
 
 <body>
-    
+
     <%- include("../../partials/home-navbar.ejs") %>
 
-    
+
     <div class="container">
-        
+
         <% result.articles.rows.forEach(article => { %>
 
         <div class="card">
@@ -20,6 +20,8 @@
         </div>
 
         <% }) %>
+
+        <%- include("../../partials/pagination.ejs") %>
 
     </div>
 </body>

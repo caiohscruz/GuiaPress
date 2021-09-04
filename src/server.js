@@ -47,14 +47,7 @@ connection
 
 // Route to index - begin
 app.get("/", async (req, res) => {
-    await Article.findAll().then(async articles => {
-        await Category.findAll().then(categories => {
-            res.render("index.ejs", {
-                articles: articles,
-                categories: categories
-            })
-        })
-    })
+    res.redirect("/articles/page/1")
 })
 // Route to index - end
 

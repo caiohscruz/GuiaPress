@@ -139,21 +139,41 @@ router.get("/articles/page/:page", async (req, res) => {
         // articles per page
         limit: quant,
         // first article of page
-        offset: offset
+        offset: offset,
+        order: [
+            ['id', 'DESC']
+        ]
     }).then(articles => {
-        // check if exists next page
-        var next = (offset + quant < articles.count) ? true : false
+        // check if exists next page, disable button if dont
+        var next = (offset + quant < articles.count) ? "" : "disabled"
+        // check if exists previous page, disable button if dont
+        var previous = (page > 1) ? "" : "disabled"
+        // num of pages 
+        var total = (articles.count % quant == 0) ? (articles.count/quant) : (parseInt(articles.count/quant)+1)
+        // page cant be bigger than total
+        if(page>total){
+            res.redirect("/articles/page/"+total)
+        }
 
         var result = {
             next: next,
+            previous: previous,
+            page: parseInt(page),
+            total: total,
             articles: articles
         }
-
         Category.findAll().then(categories => {
-            res.render("admin/articles/page.ejs", {
-                result: result,
-                categories: categories
-            })
+            if (offset == 0) {
+                res.render("index.ejs", {
+                    result: result,
+                    categories: categories
+                })
+            } else {
+                res.render("admin/articles/page.ejs", {
+                    result: result,
+                    categories: categories
+                })
+            }
         })
     })
 })
