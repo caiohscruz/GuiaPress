@@ -3,9 +3,6 @@ const express = require("express")
 const app     = express()
 const path = require('path')
 
-// Componente necessário para capturar valores do formulário
-const bodyParser = require("body-parser")
-
 // Setando conexão com o banco de dados
 const connection = require("./database/database")
 
@@ -26,12 +23,12 @@ app.use(express.static('public'))
 app.set('views', path.join(__dirname, 'views'))
 
 // Para trabalhar com formulários
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({
+app.use(express.json())
+app.use(express.urlencoded({
     extended: false
 }))
 
-// Apresentará no console se a conexão transcorreu bem
+// Conecction test - begin
 connection
 .authenticate()
 .then( () => {
@@ -40,16 +37,20 @@ connection
 .catch((msgErro) => {
     console.log(msgErro)
 })
+// Conecction test - end
 
-// Rota index
+// Route to index - begin
 app.get("/", (req,res) =>{
     Article.findAll().then(articles =>{
         res.render("index.ejs", {
             articles: articles
         })
     })
-    
 })
+// Route to index - end
+
+// Route to an article
+
 
 // Integrando os controlers
 app.use("/", CategoriesController)
