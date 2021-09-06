@@ -3,8 +3,6 @@
 
 <body>
 
-    <%- include("../../partials/navbar.ejs") %>
-
     <div class="container">
 
         <div class="card">
@@ -25,13 +23,16 @@
                         placeholder="Digite sua senha">
                     <br>
                     <label for="title">E-mail</label>
-                    <input type='text' class="form-control" id="email" name="email"
-                        placeholder="Informe seu e-mail">
+                    <input type='text' class="form-control" id="email" name="email" placeholder="Informe seu e-mail">
                     <br>
                     <button type="submit" class="btn btn-success btn-block">Cadastrar</button>
-
                 </form>
-
+                <div style="text-align: center;">
+                    <br>
+                    <a class="dropdown-item" href="/login">Já possui cadastro? Faça seu login</a>
+                    <br>
+                    <a class="dropdown-item" href="/">Voltar para a página inicial</a>
+                </div>
             </div>
 
         </div>
