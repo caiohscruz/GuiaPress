@@ -17,7 +17,11 @@ const Article = connection.define("articles",{
     body:{
         type: Sequelize.TEXT,
         allownull: false
-    }
+    },
+    author:{
+        type: Sequelize.STRING,
+        allownull : false
+    },
 })
 
 // Estabelendo relacionamento 1-n
