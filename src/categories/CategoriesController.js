@@ -15,7 +15,7 @@ router.get("/admin/categories/new", (req, res) => {
 // Route to new category page - end
 
 // Route to save a category - begin
-router.post("/categories/save", (req, res) => {
+router.post("/categories/save", adminAuth, (req, res) => {
     var title = req.body.title
     if (title != undefined) {
         Category.create({
@@ -31,7 +31,7 @@ router.post("/categories/save", (req, res) => {
 // Route to save a category - end
 
 // Route to delete a category - begin
-router.post("/categories/delete", (req, res) => {
+router.post("/categories/delete", adminAuth, (req, res) => {
     var id = req.body.id
     if (id != undefined) {
         if (!isNaN(id)) {
@@ -52,7 +52,7 @@ router.post("/categories/delete", (req, res) => {
 // Route to delete a category - end
 
 // Route to edit category page - begin
-router.get("/admin/categories/edit/:id", async (req, res) => {
+router.get("/admin/categories/edit/:id", adminAuth, async (req, res) => {
     var id = req.params.id
 
     if (!isNaN(id)) {
@@ -74,7 +74,7 @@ router.get("/admin/categories/edit/:id", async (req, res) => {
 // Route to edit category page - end
 
 // Route to update a category - begin
-router.post("/categories/update", (req, res) => {
+router.post("/categories/update", adminAuth, (req, res) => {
     var id = req.body.id
     var title = req.body.title
 
@@ -92,7 +92,7 @@ router.post("/categories/update", (req, res) => {
 // Route to update a category - end
 
 // Route to categories page - begin
-router.get("/admin/categories/", async (req, res) => {
+router.get("/admin/categories/", adminAuth, async (req, res) => {
     await Category.findAll({
         raw: true,
         order: [

@@ -5,8 +5,10 @@ const Category = require("../categories/Category")
 const Article = require("./Article")
 const slugify = require("slugify")
 
+const adminAuth = require("../middlewares/adminAuth")
+
 // Route to list articles - begin
-router.get("/admin/articles", async (req, res) => {
+router.get("/admin/articles", adminAuth, async (req, res) => {
     await Article.findAll({
         include: [{
             model: Category
@@ -23,7 +25,7 @@ router.get("/admin/articles", async (req, res) => {
 // Route to list articles - end
 
 // Route to new article - begin
-router.get("/admin/articles/new", async (req, res) => {
+router.get("/admin/articles/new", adminAuth, async (req, res) => {
     await Category.findAll().then(categories => {
         res.render("admin/articles/new.ejs", {
             categories: categories
@@ -33,7 +35,7 @@ router.get("/admin/articles/new", async (req, res) => {
 // Route to new article - end
 
 // Route to save a article - begin
-router.post("/articles/save", async (req, res) => {
+router.post("/articles/save", adminAuth, async (req, res) => {
     var title = req.body.title
     var body = req.body.body
     var category = req.body.category
@@ -54,7 +56,7 @@ router.post("/articles/save", async (req, res) => {
 // Route to save a article - end
 
 // Route to delete a article - begin
-router.post("/articles/delete", async (req, res) => {
+router.post("/articles/delete", adminAuth, async (req, res) => {
     var id = req.body.id
     if (id != undefined) {
         if (!isNaN(id)) {
@@ -75,7 +77,7 @@ router.post("/articles/delete", async (req, res) => {
 // Route to delete a article - end
 
 // Route to edit article page - begin
-router.get("/admin/articles/edit/:id", async (req, res) => {
+router.get("/admin/articles/edit/:id", adminAuth, async (req, res) => {
     var id = req.params.id
 
     if (!isNaN(id)) {
@@ -102,7 +104,7 @@ router.get("/admin/articles/edit/:id", async (req, res) => {
 // Route to edit article page - end
 
 // Route to update a article - begin
-router.post("/articles/update", async (req, res) => {
+router.post("/articles/update", adminAuth, async (req, res) => {
     var id = req.body.id
     var title = req.body.title
     var body = req.body.body
@@ -213,9 +215,7 @@ router.get("/:slug?/articles/page/:page", async (req, res) => {
         })
     }
 })
-
 // Route to article pagination filtered by category - end
-
 
 // Route to an article- begin
 router.get("/:slug", async (req, res) => {
