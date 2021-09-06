@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a href="/" class="navbar-brand">
+    <a href="#" class="navbar-brand">
         GuiaPress
     </a>
 
@@ -8,7 +8,13 @@
             <a href="/" class="nav-link">Home</a>
         </li>
         <li class="nav-item">
-            <div class="btn-group">
+            <a href="/login" class="nav-link">Log in</a>
+        </li>
+        <li class="nav-item">
+            <a href="/admin/users/new" class="nav-link">Sign up</a>
+        </li>
+        <li class="nav-item">
+                    <div class="btn-group">
                 <button type="button" class="btn btn-primary dropdown-toggle"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Categorias
@@ -16,7 +22,7 @@
                 <div class="dropdown-menu">
 
                     <% categories.forEach(category =>{ %>
-                    <a href="/<%= category.slug %>/articles/page/1" class="dropdown-item"><%= category.title %></a>
+                    <a href="/articles/page/1?category=<%= category.slug %>" class="dropdown-item"><%= category.title %></a>
                     <% }) %>
 
                 </div>
