@@ -66,10 +66,13 @@ router.post("/users/save", async (req, res) => {
 })
 // Route to save a user - end
 
+// route to login page - begin
 router.get("/login", (req, res) => {
     res.render("admin/users/login.ejs")
 })
+// route to login page - end
 
+// route to authentication - begin
 router.post("/authenticate", async (req, res) => {
     var email = req.body.email
     var password = req.body.password
@@ -95,6 +98,6 @@ router.post("/authenticate", async (req, res) => {
         }
     })
 })
-
+// route to authentication - end
 
 module.exports = router
