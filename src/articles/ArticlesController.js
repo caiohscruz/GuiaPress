@@ -128,11 +128,11 @@ router.post("/articles/update", adminAuth, async (req, res) => {
 // Route to update a article - end
 
 // Route to article pagination filtered or not by category- begin
-router.get("/:slug?/articles/page/:page", async (req, res) => {
+router.get("/articles/page/:page", async (req, res) => {
     var page = req.params.page
     var offset = 0
     var quant = 4
-    var slug = req.params.slug
+    var slug = req.query.category
     var categoryId
     var articles
 
@@ -218,7 +218,7 @@ router.get("/:slug?/articles/page/:page", async (req, res) => {
 // Route to article pagination filtered by category - end
 
 // Route to an article- begin
-router.get("/:slug", async (req, res) => {
+router.get("/read/:slug", async (req, res) => {
     var slug = req.params.slug
     await Article.findOne({
         where: {
