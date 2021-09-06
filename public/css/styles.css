@@ -1,3 +1,8 @@
 .card, .jumbotron{
     margin-top: 3vh;
 }
+.scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}
