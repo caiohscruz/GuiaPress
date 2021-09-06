@@ -2,6 +2,7 @@ const express = require("express")
 const router = express.Router()
 
 const Category = require("../categories/Category")
+const User = require("../users/User")
 const Article = require("./Article")
 const slugify = require("slugify")
 
@@ -9,24 +10,47 @@ const adminAuth = require("../middlewares/adminAuth")
 
 // Route to list articles - begin
 router.get("/admin/articles", adminAuth, async (req, res) => {
-    await Article.findAll({
-        include: [{
-            model: Category
-        }],
-        order: [
-            ['title', 'ASC']
-        ]
-    }).then(articles => {
-        res.render("admin/articles/index.ejs", {
-            articles: articles
+    var userId = req.session.user.id
+    var articles
+
+    if (userId == 1) {
+        articles = await Article.findAll({
+            include: [{
+                model: Category
+            }],
+            order: [
+                ['id', 'DESC']
+            ]
         })
+    } else {
+        articles = await Article.findAll({
+            where: {
+                userId: userId
+            },
+            include: [{
+                model: Category
+            }],
+            order: [
+                ['id', 'DESC']
+            ]
+        })
+    }
+
+    res.render("admin/articles/index.ejs", {
+        articles: articles
     })
+
 })
+
 // Route to list articles - end
 
 // Route to new article - begin
 router.get("/admin/articles/new", adminAuth, async (req, res) => {
-    await Category.findAll().then(categories => {
+    await Category.findAll({
+        order: [
+            ["title", "ASC"]
+        ]
+    }).then(categories => {
         res.render("admin/articles/new.ejs", {
             categories: categories
         })
@@ -39,13 +63,15 @@ router.post("/articles/save", adminAuth, async (req, res) => {
     var title = req.body.title
     var body = req.body.body
     var category = req.body.category
+    var userId = req.session.user.id
 
     if (title != undefined) {
         await Article.create({
             title: title,
             slug: slugify(title),
             body: body,
-            categoryId: category
+            categoryId: category,
+            userId: userId
         }).then(() => {
             res.redirect("/admin/articles")
         })
@@ -79,10 +105,15 @@ router.post("/articles/delete", adminAuth, async (req, res) => {
 // Route to edit article page - begin
 router.get("/admin/articles/edit/:id", adminAuth, async (req, res) => {
     var id = req.params.id
+    var userId = req.session.user.id
 
     if (!isNaN(id)) {
         await Article.findByPk(id).then(async article => {
             if (article != undefined) {
+
+                if ((userId != 1) && (userId != article.userId)) {
+                    res.redirect("/admin/articles")
+                }
 
                 await Category.findAll().then(categories => {
 
@@ -158,7 +189,12 @@ router.get("/articles/page/:page", async (req, res) => {
             offset: offset,
             order: [
                 ['id', 'DESC']
-            ]
+            ],
+            include: [{
+                model: User
+            }, {
+                model: Category
+            }]
         })
     } else {
         // findAndCountAll return all and the number of results
@@ -169,7 +205,12 @@ router.get("/articles/page/:page", async (req, res) => {
             offset: offset,
             order: [
                 ['id', 'DESC']
-            ]
+            ],
+            include: [{
+                model: User
+            }, {
+                model: Category
+            }]
         })
     }
 
@@ -192,28 +233,25 @@ router.get("/articles/page/:page", async (req, res) => {
         slug: slug,
         articles: articles
     }
-    if (slug == undefined) {
-        Category.findAll().then(categories => {
-            if (offset == 0) {
-                res.render("index.ejs", {
-                    result: result,
-                    categories: categories
-                })
-            } else {
-                res.render("admin/articles/page.ejs", {
-                    result: result,
-                    categories: categories
-                })
-            }
-        })
-    } else {
-        Category.findAll().then(categories => {
-            res.render("admin/categories/page.ejs", {
+
+    Category.findAll({
+        order: [
+            ['title', 'ASC']
+        ]
+    }).then(categories => {
+        if (offset == 0) {
+            res.render("index.ejs", {
                 result: result,
                 categories: categories
             })
-        })
-    }
+        } else {
+            res.render("admin/articles/page.ejs", {
+                result: result,
+                categories: categories
+            })
+        }
+    })
+
 })
 // Route to article pagination filtered by category - end
 
@@ -223,7 +261,12 @@ router.get("/read/:slug", async (req, res) => {
     await Article.findOne({
         where: {
             slug: slug
-        }
+        },
+        include: [{
+            model: Category
+        }, {
+            model: User
+        }]
     }).then(async article => {
         if (article != undefined) {
             await Category.findAll().then(categories => {

@@ -12,7 +12,14 @@ const adminAuth = require("../middlewares/adminAuth")
 
 // Route to new category page - begin
 router.get("/admin/categories/new", (req, res) => {
-    res.render("admin/categories/new.ejs")
+    var user = req.session.user.id
+
+    if (user != 1) {
+        res.redirect("/admin/articles")
+    } else {
+        res.render("admin/categories/new.ejs")
+    }
+
 })
 // Route to new category page - end
 
@@ -56,6 +63,11 @@ router.post("/categories/delete", adminAuth, (req, res) => {
 // Route to edit category page - begin
 router.get("/admin/categories/edit/:id", adminAuth, async (req, res) => {
     var id = req.params.id
+    var user = req.session.user.id
+
+    if (user != 1) {
+        res.redirect("/admin/articles")
+    }
 
     if (!isNaN(id)) {
         await Category.findByPk(id).then(category => {
@@ -95,6 +107,12 @@ router.post("/categories/update", adminAuth, (req, res) => {
 
 // Route to categories page - begin
 router.get("/admin/categories/", adminAuth, async (req, res) => {
+    var user = req.session.user.id
+
+    if (user != 1) {
+        res.redirect("/admin/articles")
+    }
+
     await Category.findAll({
         raw: true,
         order: [
