@@ -1,0 +1,42 @@
+<!-- Inclui head -->
+<%- include("../../partials/header.ejs") %>
+
+<body>
+
+    <div class="container">
+
+        <div class="card">
+
+            <div class="card-header">
+                <h2>Login de admin</h2>
+            </div>
+
+            <div class="card-body">
+
+                <form method="POST" action="/authenticate">
+                    <label for="title">E-mail</label>
+                    <input type='text' class="form-control" id="email" name="email" placeholder="Informe seu e-mail">
+                    <br>
+                    <label for="title">Senha</label>
+                    <input type='password' class="form-control" id="password" name="password"
+                        placeholder="Digite sua senha">
+                    <br>
+                    <button type="submit" class="btn btn-success btn-block">Entrar</button>
+                </form>
+                <div style="text-align: center;">
+                    <br>
+                    <a class="dropdown-item" href="/admin/users/new">Novo por
+                        aqui? Cadastre-se</a>
+                    <br>
+                    <a class="dropdown-item" href="/">Voltar para a página inicial</a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+<!-- Inclui footer -->
+<%- include("../../partials/footer.ejs") %>
