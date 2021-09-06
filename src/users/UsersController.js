@@ -8,8 +8,10 @@ const User = require("./User")
 // to protect users password
 const bcrypt = require("bcryptjs")
 
+const adminAuth = require("../middlewares/adminAuth")
+
 // Route to users adm page - begin
-router.get("/admin/users/", async (req, res) => {
+router.get("/admin/users/", adminAuth, async (req, res) => {
     await User.findAll({
         raw: true,
         order: [
@@ -54,9 +56,9 @@ router.post("/users/save", async (req, res) => {
                     password: hash,
                     email: email
                 }).then(() => {
-                    res.redirect("/")
+                    res.render("/")
                 }).catch(erro => {
-                    res.redirect("/")
+                    res.redirect("/admin/users/new")
                 })
             } else {
                 res.redirect("admin/users/new")
@@ -87,9 +89,10 @@ router.post("/authenticate", async (req, res) => {
             if (correct) {
                 req.session.user = {
                     id: user.id,
+                    username: user.username,
                     email: user.email
                 }
-                res.redirect("/")
+                res.redirect("/admin/articles")
             } else {
                 res.redirect("/login")
             }
@@ -99,5 +102,12 @@ router.post("/authenticate", async (req, res) => {
     })
 })
 // route to authentication - end
+
+// route to logout - begin
+router.get("/logout", (req, res) =>{
+    req.session.user = undefined
+    res.redirect("/")
+})
+// route to logout - end
 
 module.exports = router
