@@ -9,7 +9,7 @@ const session = require("express-session")
 app.use(session({
     // to improve security
     secret: "dsajdksdjkaskdajdkasdierwer",
-    cookie: {maxAge: 30*60*1000},
+    cookie: {maxAge: 86400000},
     resave: true,
     saveUninitialized: true
 }))
@@ -24,12 +24,6 @@ const CategoriesController = require("./categories/CategoriesController")
 const ArticlesController = require("./articles/ArticlesController")
 const UsersController = require("./users/UsersController")
 // Import controllers - end
-
-// Import models - begin
-const Category = require("./categories/Category")
-const Article = require("./articles/Article")
-const User = require("./users/User")
-// Import models - end
 
 // Setting View Engine - begin
 app.set('view engine', 'ejs')
