@@ -8,6 +8,8 @@ const Category = require("./Category")
 // slugify transform a string replacing spaces and special characters
 const slugify = require("slugify")
 
+const adminAuth = require("../middlewares/adminAuth")
+
 // Route to new category page - begin
 router.get("/admin/categories/new", (req, res) => {
     res.render("admin/categories/new.ejs")
