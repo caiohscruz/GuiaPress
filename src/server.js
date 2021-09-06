@@ -4,6 +4,15 @@ const app = express()
 const path = require('path')
 // Setting express - end
 
+// sessions - begin
+const session = require("express-session")
+app.use(session({
+    // to improve security
+    secret: "dsajdksdjkaskdajdkasdierwer",
+    cookie: {maxAge: 30*60*1000}
+}))
+// sessions -end
+
 // Importo DB connection - begin
 const connection = require("./database/database")
 // Importo DB connection - end
