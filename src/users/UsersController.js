@@ -56,7 +56,7 @@ router.post("/users/save", async (req, res) => {
                     password: hash,
                     email: email
                 }).then(() => {
-                    res.render("/")
+                    res.redirect("/")
                 }).catch(erro => {
                     res.redirect("/admin/users/new")
                 })
@@ -94,10 +94,10 @@ router.post("/authenticate", async (req, res) => {
                 }
                 res.redirect("/admin/articles")
             } else {
-                res.redirect("/login")
+                res.redirect("/")
             }
         } else {
-            res.redirect("/login")
+            res.redirect("/")
         }
     })
 })
