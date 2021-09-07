@@ -25,6 +25,10 @@ const ArticlesController = require("./articles/ArticlesController")
 const UsersController = require("./users/UsersController")
 // Import controllers - end
 
+// import model - begin
+const Category = require("./categories/Category")
+// import model - end
+
 // Setting View Engine - begin
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
@@ -57,6 +61,16 @@ app.get("/", async (req, res) => {
     res.redirect("/articles/page/1")
 })
 // Route to index - end
+
+// route to about - begin
+app.get("/about", async (req, res)=>{
+    await Category.findAll().then(categories => {
+        res.render("about.ejs", {
+            categories: categories
+        })
+    })
+})
+// route to about - end
 
 // Import controllers routes - begin
 app.use("/", CategoriesController)
