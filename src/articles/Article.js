@@ -23,6 +23,7 @@ const Article = connection.define("articles",{
 
 // Estabelendo relacionamento 1-n
 Category.hasMany(Article)
+User.hasMany(Article)
 // Estabelecendo relacionamento 1-1
 Article.belongsTo(Category)
 Article.belongsTo(User)
