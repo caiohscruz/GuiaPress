@@ -105,7 +105,7 @@ router.post("/authenticate", async (req, res) => {
 
 // route to logout - begin
 router.get("/logout", (req, res) =>{
-    req.session.user = undefined
+    req.session.destroy()
     res.redirect("/")
 })
 // route to logout - end
