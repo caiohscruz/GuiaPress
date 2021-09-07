@@ -9,7 +9,9 @@ const session = require("express-session")
 app.use(session({
     // to improve security
     secret: "dsajdksdjkaskdajdkasdierwer",
-    cookie: {maxAge: 86400000},
+    cookie: {
+        maxAge: 86400000
+    },
     resave: true,
     saveUninitialized: true
 }))
@@ -27,6 +29,8 @@ const UsersController = require("./users/UsersController")
 
 // import model - begin
 const Category = require("./categories/Category")
+const Article = require("./articles/Article")
+const User = require("./users/Users")
 // import model - end
 
 // Setting View Engine - begin
@@ -58,12 +62,59 @@ connection
 
 // Route to index - begin
 app.get("/", async (req, res) => {
-    res.redirect("/articles/page/1")
+    var offset = 0
+    var quant = 4
+    var articles
+    var page=1
+
+    // findAndCountAll return all and the number of results
+    articles = await Article.findAndCountAll({
+        // articles per page
+        limit: quant,
+        // first article of page
+        offset: offset,
+        order: [
+            ['id', 'DESC']
+        ],
+        include: [{
+            model: User
+        }, {
+            model: Category
+        }]
+    })
+
+    // check if exists next page, disable button if dont
+    var next = (offset + quant < articles.count) ? "" : "disabled"
+    // check if exists previous page, disable button if dont
+    var previous = "disabled"
+    // num of pages 
+    var total = (articles.count % quant == 0) ? (articles.count / quant) : (parseInt(articles.count / quant) + 1)
+    // page cant be bigger than total
+
+    var result = {
+        next: next,
+        previous: previous,
+        page: parseInt(page),
+        total: total,
+        articles: articles
+    }
+
+    Category.findAll({
+        order: [
+            ['title', 'ASC']
+        ]
+    }).then(categories => {
+        res.render("index.ejs", {
+            result: result,
+            categories: categories
+        })
+    })
+
 })
 // Route to index - end
 
 // route to about - begin
-app.get("/about", async (req, res)=>{
+app.get("/about", async (req, res) => {
     await Category.findAll().then(categories => {
         res.render("about.ejs", {
             categories: categories

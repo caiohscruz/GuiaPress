@@ -167,9 +167,14 @@ router.get("/articles/page/:page", async (req, res) => {
     var categoryId
     var articles
 
+    if ((page == 1) && slug == undefined) {
+        res.redirect("/")
+    }
+
     if (!isNaN(page) && (parseInt(page) > 1)) {
         offset = (parseInt(page) - 1) * quant
     }
+
     if (slug != undefined) {
         await Category.findOne({
             where: {
@@ -239,17 +244,10 @@ router.get("/articles/page/:page", async (req, res) => {
             ['title', 'ASC']
         ]
     }).then(categories => {
-        if (offset == 0) {
-            res.render("index.ejs", {
-                result: result,
-                categories: categories
-            })
-        } else {
-            res.render("admin/articles/page.ejs", {
-                result: result,
-                categories: categories
-            })
-        }
+        res.render("admin/articles/page.ejs", {
+            result: result,
+            categories: categories
+        })
     })
 
 })
