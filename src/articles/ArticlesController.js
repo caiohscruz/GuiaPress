@@ -2,7 +2,7 @@ const express = require("express")
 const router = express.Router()
 
 const Category = require("../categories/Category")
-const User = require("../users/User")
+const User = require("../users/Users")
 const Article = require("./Article")
 const slugify = require("slugify")
 

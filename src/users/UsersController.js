@@ -3,7 +3,7 @@ const express = require("express")
 const router = express.Router()
 
 // import User model
-const User = require("./User")
+const User = require("./Users")
 
 // to protect users password
 const bcrypt = require("bcryptjs")

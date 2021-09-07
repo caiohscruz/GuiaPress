@@ -3,7 +3,7 @@ const connection = require("../database/database")
 
 // importando para estabelecer relacionamento
 const Category = require("../categories/Category")
-const User  = require("../users/User")
+const User  = require("../users/Users")
 
 /* Cria a estrutura da tabela. STRING < TEXT */
 const Article = connection.define("articles",{
