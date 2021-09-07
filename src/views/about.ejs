@@ -1,0 +1,51 @@
+<!-- Inclui head -->
+<%- include("./partials/header.ejs") %>
+
+<body>
+
+    <%- include("./partials/home-navbar.ejs") %>
+
+
+    <div class="container">
+
+        <div class="card">
+            <div class="card-header">
+                <h5>Sobre</h5>
+                <p>Este é o segundo projeto do curso de <a href="https://www.udemy.com/course/formacao-nodejs">Formação
+                        NodeJS</a> que estou fazendo pela Udemy. A proposta era desenvolver um protótipo de blog, onde
+                    um usuário qualquer, não logado, pode consultar os artigos publicados, filtrados ou não por
+                    categoria. Caso o usuário tenha um cadastro, ele pode, em sua área restrita, criar, editar e deletar
+                    artigos e categorias. </p>
+            </div>
+            <div class="card-body">
+                <p>Uma das alterações que implementei foi que, diferente do projeto original, onde bastaria estar logado
+                    para manipular quaisquer artigos e categorias, adicionei uma restrição para que os usuários possam
+                    manipular apenas os seus próprios artigos, e apenas o administrador pode consultar todos os artigos
+                    e manipular as categorias. Fiz isso para não correr o risco de serem geradas inconsistências, como
+                    deletarem uma categoria que possui artigos publicados. Caso um usuário que não é o administrador
+                    tente acessar o menu de categorias ou use rotas que ele não poderia, será redirecionado para a
+                    página inicial da área restrita, onde são expostos seus artigos</p>
+                <p>O projeto original ainda propunha listar cada categoria criada na navbar, um ao lado do outro. Em vez
+                    disso, inclui um dropdown no menu, que lista as categorias em ordem alfabética. Caso uma categoria
+                    que ainda não possui artigos seja selecionada, o usuário é redirecionado para a página inicial, mas
+                    caso haja artigos para aquela categoria, a plataforma irá apresentá-los do mais recente ao mais
+                    antigo.</p>
+                <p>O esquema de paginação originalmente seria apenas links de "próximo" e "anterior" ao final da página,
+                    resolvi incrementar um pouco o esquema de paginação incluindo um mostrador de páginas e os botões de
+                    primeira e última páginas.</p>
+                <p>Achei que seria interessante também incluir uma sinalização aos artigos de quem os elaborou e a qual
+                    categoria pertencem, algo que não estava no escopo original do projeto. Como coloquei, o projeto não
+                    fazia distinção entre os usuários, o login foi incluido apenas para familiarização com as
+                    funcionalidades de autenticação e sessões</p>
+                <p>Quanto aos cadastro e login, acrescentei o campo "username" para poder incluir os autores dos
+                    artigos e inclui um menu de login na navbar. Na proposta do projeto, haveria apenas os itens "login"
+                    e "cadastro" na navbar, tal como o item "home", que direcionaria os usuários para as respectivas páginas. Não deixei de
+                    implementar essas páginas, mas achei que seria interessante ter a opção de se realizar o login
+                    direto da página inicial, sem ter que ir para outra página para isso.</p>
+            </div>
+        </div>
+
+    </div>
+</body>
+<!-- Inclui footer -->
+<%- include("./partials/footer.ejs") %>
