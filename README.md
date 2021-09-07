@@ -1,4 +1,4 @@
-![](https://github.com/caiohscruz/GuiaPress/blob/master/public/images/tumbnail%20guiapress.png?raw=true)
+![](https://github.com/caiohscruz/GuiaPress/blob/master/public/images/tumbnail%20guiapress.PNG??raw=true)
 
 
 
@@ -14,7 +14,7 @@ Adquiri um curso de NodeJS na Udemy,  [Formação NodeJS](https://www.udemy.com/
 
 ## :books: Aprendizado
 
-Aprendi neste projeto a lidar com autenticação de usuários e com sessões com NodeJS, não me pareceu muito diferente de como aprendi quando estudei PHP na faculdade. Tive algumas dificuldades com o deploy, o que propiciou um grande aprendizado: um módulo não estava sendo reconhecido por causa de diferenciação entre letra maiúscula e minúscula. O projeto estava rodando localmente, mas apresentava erro de "módulo não encontrado" nos logs da Heroku. Depois de pesquisar um pouco, descobri que o git parece não fazer distinção entre maiúscula e minúscula, mas a base do Heroku é Linux, e ele faz essa diferenciação. Acontece que quando fiz o primeiro commit que envolvia o módulo em questão, eu tinha nomeado ele com todas as letras minúsculas, durante o desenvolvimento corrigi isso, mas essa alteração não foi considerada relevante ao git. No momento do deploy, a Heroku  identificava o arquivo como começando com minúscula, mas meu código fazia referencia ao nome começando com letra maiúscula.
+Aprendi neste projeto a lidar com autenticação de usuários e com sessões com NodeJS, não me pareceu muito diferente de como aprendi quando estudei PHP na faculdade. Através desse projeto também aprendi a utilizar o bcrypt para prover segurança no armazenamento de senhas, conheci o interessantíssimo editor de texto TinyMCE, e pude me familiarizar ainda mais com o NodeJS, com a gestão do projeto via VSCode, realizando a manipulação do git através da IDE, e com o Bootstrap. Tive algumas dificuldades com o deploy, o que propiciou um grande aprendizado: um módulo não estava sendo reconhecido por causa de diferenciação entre letra maiúscula e minúscula. O projeto estava rodando localmente, mas apresentava erro de "módulo não encontrado" nos logs da Heroku. Depois de pesquisar um pouco, descobri que o git parece não fazer distinção entre maiúscula e minúscula, mas a base do Heroku é Linux, e ele faz essa diferenciação. Acontece que quando fiz o primeiro commit que envolvia o módulo em questão, eu tinha nomeado ele com todas as letras minúsculas, durante o desenvolvimento corrigi isso, mas essa alteração não foi considerada relevante ao git. No momento do deploy, a Heroku  identificava o arquivo como começando com minúscula, mas meu código fazia referencia ao nome começando com letra maiúscula.
 
 ## :hammer:Alterações
 
